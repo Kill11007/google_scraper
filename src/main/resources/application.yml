@@ -1,0 +1,10 @@
+google:
+  url: https://www.google.com/search
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/google_scrape
+    username: root
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
