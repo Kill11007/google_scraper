@@ -1,6 +1,5 @@
 package com.profilebaba.googledata.dto.deserializer;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -42,21 +41,45 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
     }
 
     //Latitude and Longitude
-    /*TreeNode latLngTreeNode = treeNode.get(9);
-    if (latLngTreeNode.isArray()) {
+    JsonNode latLong = recordNode.get(9);
+    if (latLong.isArray()) {
       //latitude
-      TreeNode latitude = latLngTreeNode.get(2);
+      JsonNode latitude = latLong.get(2);
       if (latitude.isValueNode()) {
-        builder.latitude(latitude.toString());
+        recordBuilder.latitude(latitude.toString());
       }
 
       //longitude
-      TreeNode longitude = latLngTreeNode.get(3);
+      JsonNode longitude = latLong.get(3);
       if (longitude.isValueNode()) {
-        builder.longitude(longitude.toString());
+        recordBuilder.longitude(longitude.toString());
       }
 
-    }*/
+    }
+
+    //Google Category Name
+    JsonNode categoryNode = recordNode.get(13);
+    if (!categoryNode.isNull() && categoryNode.isArray()) {
+      JsonNode node = categoryNode.get(0);
+      if (!node.isNull() && node.isValueNode()) {
+        recordBuilder.googleCategory(node.asText());
+      }
+    }
+
+    //Phone Number
+    JsonNode phoneNode = recordNode.get(178);
+    if (!phoneNode.isNull() && phoneNode.isArray()) {
+      JsonNode node1 = phoneNode.get(0);
+      if (!node1.isNull() && node1.isArray()) {
+        JsonNode node = node1.get(3);
+        if (!node.isNull() && node.isValueNode()) {
+          recordBuilder.phone(node.asText());
+        }
+      }
+    }
+
+    recordBuilder.jsonResponse(recordNode.toString());
+
     return recordBuilder.build();
   }
 

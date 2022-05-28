@@ -58,7 +58,7 @@ public class GoogleBusiness {
     if (response.getStatusCode() == HttpStatus.OK) {
       String body = response.getBody();
       body = body.replace(")]}'", "");
-      log.info(body);
+//      log.info(body);
       googleResponse = Optional.ofNullable(
           objectMapper.readValue(body, GoogleResponse.class));
     }
@@ -86,7 +86,9 @@ public class GoogleBusiness {
     List<String> userAgents = List.of(
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.53",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; wbx 1.0.0; wbxapp 1.0.0; rv:11.0) like Gecko",
         "PostmanRuntime/7.29.0");
+
     return userAgents.get(userAgentCounter >= userAgents.size() ? 0 : userAgentCounter++);
   }
 }
