@@ -42,4 +42,4 @@ fixedDelay:
 
 app:
   scheduling:
-    enable: true
+    enable: false

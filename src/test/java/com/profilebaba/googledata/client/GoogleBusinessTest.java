@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class GoogleBusinessTest {
 
   @Autowired
-  private GoogleBusiness googleBusiness;
+  private GoogleBusinessClient googleBusiness;
 
   @Test
   void test_search() throws JsonProcessingException {

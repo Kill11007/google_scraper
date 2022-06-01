@@ -30,28 +30,28 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
 
     //Name
     JsonNode nameNode = recordNode.get(11);
-    if (nameNode.isValueNode()) {
+    if (nameNode != null && nameNode.isValueNode()) {
       recordBuilder.name(nameNode.asText());
     }
 
     //Address
     JsonNode addressTreeNode = recordNode.get(39);
-    if (addressTreeNode.isValueNode()) {
+    if (addressTreeNode != null && addressTreeNode.isValueNode()) {
       recordBuilder.address(addressTreeNode.asText());
     }
 
     //Latitude and Longitude
     JsonNode latLong = recordNode.get(9);
-    if (latLong.isArray()) {
+    if (latLong != null && latLong.isArray()) {
       //latitude
       JsonNode latitude = latLong.get(2);
-      if (latitude.isValueNode()) {
+      if (latitude != null && latitude.isValueNode()) {
         recordBuilder.latitude(latitude.toString());
       }
 
       //longitude
       JsonNode longitude = latLong.get(3);
-      if (longitude.isValueNode()) {
+      if (longitude != null && longitude.isValueNode()) {
         recordBuilder.longitude(longitude.toString());
       }
 
@@ -59,7 +59,7 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
 
     //Google Category Name
     JsonNode categoryNode = recordNode.get(13);
-    if (!categoryNode.isNull() && categoryNode.isArray()) {
+    if (categoryNode != null && !categoryNode.isNull() && categoryNode.isArray()) {
       JsonNode node = categoryNode.get(0);
       if (!node.isNull() && node.isValueNode()) {
         recordBuilder.googleCategory(node.asText());
@@ -68,11 +68,11 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
 
     //Phone Number
     JsonNode phoneNode = recordNode.get(178);
-    if (!phoneNode.isNull() && phoneNode.isArray()) {
+    if (phoneNode != null && !phoneNode.isNull() && phoneNode.isArray()) {
       JsonNode node1 = phoneNode.get(0);
-      if (!node1.isNull() && node1.isArray()) {
+      if (node1 != null && !node1.isNull() && node1.isArray()) {
         JsonNode node = node1.get(3);
-        if (!node.isNull() && node.isValueNode()) {
+        if (node != null && !node.isNull() && node.isValueNode()) {
           recordBuilder.phone(node.asText());
         }
       }
@@ -91,16 +91,15 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
     TreeNode zeroNode = treeNode.get(0);
     TreeNode dataNode = zeroNode.get(1);
     List<Record> records = new ArrayList<>();
-    if (dataNode.isArray()) {
+    if (dataNode != null && dataNode.isArray()) {
       ArrayNode arrayDataNode = (ArrayNode) dataNode;
       int dataNodeSize = arrayDataNode.size();
       for (int i = 1; i < dataNodeSize; i++) {
-
         JsonNode jsonNode = arrayDataNode.get(i);
-        if (jsonNode.isArray()) {
+        if (jsonNode != null && !jsonNode.isNull() && jsonNode.isArray()) {
           ArrayNode tRecordNode = (ArrayNode) jsonNode;
           JsonNode recordNode = tRecordNode.get(14);
-          if (recordNode.isArray()) {
+          if (recordNode != null && !recordNode.isNull() && recordNode.isArray()) {
             Record record = createRecord(recordNode);
             records.add(record);
           }

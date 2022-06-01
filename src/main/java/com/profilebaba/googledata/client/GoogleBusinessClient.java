@@ -29,7 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 @Log4j2
 @Component
-public class GoogleBusiness {
+public class GoogleBusinessClient {
 
   @Value("${google.url:https://www.google.com/search}")
   private String googleURL;

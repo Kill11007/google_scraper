@@ -28,7 +28,7 @@ import org.hibernate.Hibernate;
 public class Vendor {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
@@ -37,7 +37,7 @@ public class Vendor {
 
   private String category;
 
-  private String location;
+  private String address;
 
   @Column(name = "created_at")
   private LocalDateTime createdAt;
@@ -58,6 +58,9 @@ public class Vendor {
 
   private String latitude;
   private String longitude;
+
+  @Column(name = "json_response")
+  private String jsonResponse;
 
   @Override
   public boolean equals(Object o) {

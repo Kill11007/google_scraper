@@ -10,7 +10,7 @@ public class ResponseStatusConverter implements AttributeConverter<Status, Strin
 
   @Override
   public String convertToDatabaseColumn(Status status) {
-    return Optional.ofNullable(status).map(s -> s.getStatus())
+    return Optional.ofNullable(status).map(Status::getStatus)
         .orElse(Status.NOT_STARTED.getStatus());
   }
 
