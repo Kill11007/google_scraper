@@ -1,6 +1,7 @@
 package com.profilebaba.googledata;
 
 import com.profilebaba.googledata.service.impl.GoogleScheduledService;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +20,7 @@ public class GoogleDataApplication {
 	}
 
 	@Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
-	public void scheduleSearchService() {
+	public void scheduleSearchService() throws IOException {
 		log.info("scheduleSearchService started");
 		googleScheduledService.fetchAndStoreGoogleSearchData();
 		log.info("scheduleSearchService finished");

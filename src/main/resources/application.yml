@@ -1,28 +1,21 @@
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
 
 
 google:
   url: https://www.google.com/search
 
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/google_scrape
-    username: root
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql=true: true
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql=true: true
 
 locations:
   all: false
@@ -32,12 +25,12 @@ categories:
 
 
 request:
-  total-records: 1
+  total-records: 500
 
 
 fixedDelay:
   in:
-    milliseconds: 30000
+    milliseconds: 6000
 
 
 app:

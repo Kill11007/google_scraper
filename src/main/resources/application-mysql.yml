@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/google_scrape
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 20
+      idle-timeout: 300000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
