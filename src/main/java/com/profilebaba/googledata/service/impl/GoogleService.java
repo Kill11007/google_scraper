@@ -42,6 +42,8 @@ public class GoogleService {
     private String category;
     private String address;
     private String email;
+    private String latitude;
+    private String longitude;
 
   }
 }

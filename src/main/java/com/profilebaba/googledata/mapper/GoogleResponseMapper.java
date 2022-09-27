@@ -18,9 +18,12 @@ public class GoogleResponseMapper {
 
   public GoogleVendor responseToGoogleVendor(Record record) {
     return GoogleVendor.builder()
-            .name(record.getName())
-            .address(record.getAddress())
-            .category(record.getGoogleCategory())
-            .phone(record.getPhone()).build();
+        .name(record.getName())
+        .address(record.getAddress())
+        .category(record.getGoogleCategory())
+        .latitude(record.getLatitude())
+        .longitude(record.getLongitude())
+        .phone(record.getPhone())
+        .build();
   }
 }
