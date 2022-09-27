@@ -1,14 +1,14 @@
 package com.profilebaba.googledata.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.profilebaba.googledata.entity.Vendor;
 import com.profilebaba.googledata.service.impl.GoogleService;
+import com.profilebaba.googledata.service.impl.GoogleService.GoogleVendor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,11 +18,14 @@ public class GoogleSearchController {
 
   private final GoogleService googleService;
 
-  @GetMapping("categories/{categoryId}/location/{locationId}")
-  public ResponseEntity<List<Vendor>> search(@PathVariable Integer categoryId,
-      @PathVariable Integer locationId) throws JsonProcessingException {
-    List<Vendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(categoryId,
-        locationId);
+  @GetMapping
+  public ResponseEntity<List<GoogleVendor>> search(
+      @RequestParam("category") String category,
+      @RequestParam("location") String location,
+      @RequestParam("state") String state,
+      @RequestParam("size") Integer size) throws JsonProcessingException {
+    List<GoogleVendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(
+        category, location, state, size);
     return ResponseEntity.ok(googleBusinessInformation);
   }
 }

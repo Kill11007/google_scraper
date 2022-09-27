@@ -1,24 +1,15 @@
 package com.profilebaba.googledata.config;
 
-import com.profilebaba.googledata.entity.Category;
-import com.profilebaba.googledata.entity.Location;
-import com.profilebaba.googledata.repository.CategoryRepository;
-import com.profilebaba.googledata.repository.LocationRepository;
-import com.profilebaba.googledata.repository.ResponseRepository;
 import java.util.HashMap;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfiguration {
 
-  private final CategoryRepository categoryRepository;
 
   @Bean
   public HashMap<String, String> queryParams() {
@@ -37,11 +28,5 @@ public class ApplicationConfiguration {
   public RestTemplate restTemplate() {
     RestTemplate restTemplate = new RestTemplate();
     return restTemplate;
-  }
-
-  @Bean(name = "all-categories")
-  @ConditionalOnProperty(prefix = "categories", name = "all", havingValue = "true")
-  public List<Category> categories() {
-    return categoryRepository.findAll();
   }
 }

@@ -1,17 +1,17 @@
 package com.profilebaba.googledata.service.impl;
 
+import static java.text.MessageFormat.format;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.profilebaba.googledata.client.GoogleBusinessClient;
 import com.profilebaba.googledata.dto.GoogleResponse;
 import com.profilebaba.googledata.dto.Request;
-import com.profilebaba.googledata.entity.Category;
-import com.profilebaba.googledata.entity.Location;
-import com.profilebaba.googledata.entity.Vendor;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
 import java.util.List;
 import java.util.Optional;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,34 +19,30 @@ import org.springframework.stereotype.Service;
 public class GoogleService {
 
   private final GoogleBusinessClient googleBusiness;
-  private final LocationService locationService;
-  private final CategoryService categoryService;
-  private final ApplicationContext applicationContext;
-  private final RequestService requestService;
   private final GoogleResponseMapper responseMapper;
 
-  public List<Vendor> getGoogleBusinessInformation(Integer categoryId, Integer locationId)
+
+  public List<GoogleVendor> getGoogleBusinessInformation(String category, String location, String state, Integer size)
       throws JsonProcessingException {
-    Optional<Category> category = categoryService.getCategory(categoryId);
-    Optional<Location> location = locationService.getLocation(locationId);
-    SimpleQueryService queryService = applicationContext.getBean(SimpleQueryService.class,
-        location.orElseThrow(),
-        category.orElseThrow());
-    String query = queryService.getQuery();
-    Request request = requestService.getRequest(query);
+    final String QUERY = "{0} in {1}, {2}, IN";
+    Request request = new Request(size, 0, format(QUERY, category, location, state));
     Optional<GoogleResponse> search = googleBusiness.search(request);
-    if (search.isEmpty()) {
-      queryService.queryFailed();
-    }else {
-      queryService.queryCompleted();
+    if (search.isPresent()) {
+      List<GoogleVendor> googleVendors = responseMapper.responseToGoogleVendor(search.get());
+      return googleVendors;
     }
-
-    List<Vendor> vendorsFromGoogleResponse = responseMapper.getVendorsFromGoogleResponse(
-        search.orElseThrow(), category.get(),
-        location.get());
-
-    return vendorsFromGoogleResponse;
+    return null;
   }
 
+  @Data
+  @Builder
+  public static class GoogleVendor {
+    private String name;
+    private String phone;
+    private String category;
+    private String address;
+    private String email;
 
+  }
 }
+
