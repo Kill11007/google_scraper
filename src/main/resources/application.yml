@@ -36,3 +36,8 @@ fixedDelay:
 app:
   scheduling:
     enable: false
+
+profilebaba:
+  save-vendor:
+    host: https://testing.profilebaba.com/api
+    endpoint: /save-vendor
