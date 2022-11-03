@@ -4,7 +4,6 @@ import static java.text.MessageFormat.format;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.profilebaba.googledata.client.GoogleBusinessClient;
-import com.profilebaba.googledata.client.ProfileBabaVendorClient;
 import com.profilebaba.googledata.dto.GoogleResponse;
 import com.profilebaba.googledata.dto.Request;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
@@ -24,10 +23,15 @@ public class GoogleService {
   private final GoogleResponseMapper responseMapper;
   private final ProfileBabaAsyncVendorService profileBabaAsyncVendorService;
 
-  public List<GoogleVendor> getGoogleBusinessInformation(String category, String location, String state, Integer size)
+  public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size)
       throws JsonProcessingException {
     final String QUERY = "{0} in {1}";
-    Request request = new Request(size, 0, format(QUERY, category, location));
+    Request request ;
+    if (query == null) {
+      request = new Request(size, 0, format(QUERY, category, location));
+    }else {
+      request = new Request(size, 0, query);
+    }
     Optional<GoogleResponse> search = googleBusiness.search(request);
     if (search.isPresent()) {
       List<GoogleVendor> googleVendors =

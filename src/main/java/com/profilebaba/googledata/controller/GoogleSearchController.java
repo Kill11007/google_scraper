@@ -22,12 +22,13 @@ public class GoogleSearchController {
 
   @GetMapping
   public ResponseEntity<List<GoogleVendor>> search(
-      @RequestParam("category") String category,
-      @RequestParam("location") String location,
-      @RequestParam("state") String state,
-      @RequestParam("size") Integer size) throws JsonProcessingException {
+      @RequestParam(value = "query", required = false) String query,
+      @RequestParam(value = "category", required = false) String category,
+      @RequestParam(value = "location", required = false) String location,
+      @RequestParam(value = "state", required = false) String state,
+      @RequestParam(value = "size", required = false, defaultValue = "50") Integer size) throws JsonProcessingException {
     List<GoogleVendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(
-        category, location, state, size);
+          query, category, location, state, size);
     return ResponseEntity.ok(googleBusinessInformation);
   }
 }
