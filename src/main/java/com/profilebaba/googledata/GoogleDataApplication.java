@@ -1,14 +1,11 @@
 package com.profilebaba.googledata;
 
-import java.io.IOException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
-@Slf4j
+@Log4j2
 public class GoogleDataApplication {
 
 

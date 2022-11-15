@@ -9,19 +9,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ProfileBabaAsyncVendorService {
   private final ProfileBabaVendorClient client;
 
   @Async("taskExecutor")
   public void saveVendors(List<GoogleVendor> googleVendors) {
+    log.info("saveVendors method started");
     ProfileBabaSaveVendorRequestBody requestBody =
         new ProfileBabaSaveVendorRequestBody(getVendorFromGoogleVendor(googleVendors));
     client.saveVendors(requestBody);
+    log.info("vendors saved");
   }
 
   private List<Vendor> getVendorFromGoogleVendor(List<GoogleVendor> googleVendor){
