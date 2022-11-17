@@ -5,6 +5,7 @@ import static java.text.MessageFormat.format;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.profilebaba.googledata.client.GoogleBusinessClient;
 import com.profilebaba.googledata.dto.GoogleResponse;
+import com.profilebaba.googledata.dto.Record;
 import com.profilebaba.googledata.dto.Request;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
 import java.util.List;
@@ -26,24 +27,49 @@ public class GoogleService {
   public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size,
       Integer searchCategory)
       throws JsonProcessingException {
-    final String QUERY = "{0} in {1}";
-    Request request ;
+    Optional<GoogleResponse> search;
     if (query == null) {
-      request = new Request(size, 0, format(QUERY, category, location));
-    }else {
-      request = new Request(size, 0, query);
+      search = search(category, location, size);
+    }else{
+      search = googleBusiness.search(new Request(size, 0, query));
     }
-    Optional<GoogleResponse> search = googleBusiness.search(request);
     if (search.isPresent()) {
       List<GoogleVendor> googleVendors =
-          responseMapper.responseToGoogleVendor(
-              search.get(), record -> Objects.nonNull(record.getPhone()));
+          responseMapper.responseToGoogleVendor(search.get());
       //async below
       profileBabaAsyncVendorService.saveVendors(googleVendors, searchCategory, location);
       return googleVendors;
     }
-    return null;
+    return List.of();
   }
+
+  private Optional<GoogleResponse> search(String category, String location, Integer size)
+      throws JsonProcessingException {
+    final String QUERY = "{0} in {1}";
+    final int MAX_CALL = 3;
+    int count = 0;
+    Optional<GoogleResponse> search;
+    do{
+      Request request = new Request(size, 0, format(QUERY, category, location));
+      search = googleBusiness.search(request);
+      location = location.substring(location.indexOf(", "));
+      count++;
+    }while (!isGoogleResponsePresent(search) && count < MAX_CALL);
+    return search;
+  }
+
+  //this method also has side effects
+  private Boolean isGoogleResponsePresent(Optional<GoogleResponse> googleResponse){
+    if (googleResponse.isPresent()) {
+      List<Record> filtered =
+          googleResponse.get().getRecords().stream()
+              .filter(record -> Objects.nonNull(record.getPhone())).toList();
+      googleResponse.get().setRecords(filtered);
+      return !filtered.isEmpty();
+    }
+    return false;
+  }
+
 
   @Data
   @Builder

@@ -18,6 +18,12 @@ public class GoogleResponseMapper {
         .collect(Collectors.toList());
   }
 
+  public List<GoogleVendor> responseToGoogleVendor(GoogleResponse response) {
+    return response.getRecords().stream()
+        .map(this::responseToGoogleVendor)
+        .collect(Collectors.toList());
+  }
+
   public GoogleVendor responseToGoogleVendor(Record record) {
     return GoogleVendor.builder()
         .name(record.getName())
