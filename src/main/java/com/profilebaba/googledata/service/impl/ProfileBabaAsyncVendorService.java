@@ -20,10 +20,10 @@ public class ProfileBabaAsyncVendorService {
   private final ProfileBabaVendorClient client;
 
   @Async("taskExecutor")
-  public void saveVendors(List<GoogleVendor> googleVendors) {
+  public void saveVendors(List<GoogleVendor> googleVendors, Integer searchCategory, String location) {
     log.info("saveVendors method started");
     ProfileBabaSaveVendorRequestBody requestBody =
-        new ProfileBabaSaveVendorRequestBody(getVendorFromGoogleVendor(googleVendors));
+        new ProfileBabaSaveVendorRequestBody(getVendorFromGoogleVendor(googleVendors), searchCategory, location);
     client.saveVendors(requestBody);
     log.info("vendors saved");
   }
@@ -47,6 +47,8 @@ public class ProfileBabaAsyncVendorService {
   @NoArgsConstructor
   public static class ProfileBabaSaveVendorRequestBody {
     private List<Vendor> vendor;
+    private Integer cat;
+    private String location;
   }
   @Data
   @Builder

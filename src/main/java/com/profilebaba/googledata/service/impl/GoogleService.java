@@ -23,7 +23,8 @@ public class GoogleService {
   private final GoogleResponseMapper responseMapper;
   private final ProfileBabaAsyncVendorService profileBabaAsyncVendorService;
 
-  public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size)
+  public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size,
+      Integer searchCategory)
       throws JsonProcessingException {
     final String QUERY = "{0} in {1}";
     Request request ;
@@ -38,7 +39,7 @@ public class GoogleService {
           responseMapper.responseToGoogleVendor(
               search.get(), record -> Objects.nonNull(record.getPhone()));
       //async below
-      profileBabaAsyncVendorService.saveVendors(googleVendors);
+      profileBabaAsyncVendorService.saveVendors(googleVendors, searchCategory, location);
       return googleVendors;
     }
     return null;
