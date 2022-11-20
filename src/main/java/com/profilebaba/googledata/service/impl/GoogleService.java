@@ -8,9 +8,11 @@ import com.profilebaba.googledata.dto.GoogleResponse;
 import com.profilebaba.googledata.dto.Record;
 import com.profilebaba.googledata.dto.Request;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class GoogleService {
     if (query == null) {
       search = search(category, location, size);
     }else{
-      search = googleBusiness.search(new Request(size, 0, query));
+      search = search(query, location, size);
     }
     if (search.isPresent()) {
       List<GoogleVendor> googleVendors =
@@ -51,23 +53,24 @@ public class GoogleService {
     Optional<GoogleResponse> search;
     do{
       Request request = new Request(size, 0, format(QUERY, category, location));
-      search = googleBusiness.search(request);
+      search = googleBusiness.search(request).map(this::filterGoogleSearchResponse);
+      if (!location.contains(","))
+        break;
       location = location.substring(location.indexOf(", "));
       count++;
     }while (!isGoogleResponsePresent(search) && count < MAX_CALL);
     return search;
   }
 
+  private GoogleResponse filterGoogleSearchResponse(GoogleResponse googleResponse) {
+    return new GoogleResponse(googleResponse.getRecords().stream()
+        .filter(record -> Objects.nonNull(record.getPhone()))
+        .toList());
+  }
+
   //this method also has side effects
   private Boolean isGoogleResponsePresent(Optional<GoogleResponse> googleResponse){
-    if (googleResponse.isPresent()) {
-      List<Record> filtered =
-          googleResponse.get().getRecords().stream()
-              .filter(record -> Objects.nonNull(record.getPhone())).toList();
-      googleResponse.get().setRecords(filtered);
-      return !filtered.isEmpty();
-    }
-    return false;
+    return googleResponse.filter(response -> !response.getRecords().isEmpty()).isPresent();
   }
 
 
