@@ -1,5 +1,7 @@
 package com.profilebaba.googledata.service.impl;
 
+import static com.profilebaba.googledata.util.PhoneNumberCleaner.clean;
+
 import com.profilebaba.googledata.client.ProfileBabaVendorClient;
 import com.profilebaba.googledata.service.impl.GoogleService.GoogleVendor;
 import java.util.List;
@@ -39,7 +41,7 @@ public class ProfileBabaAsyncVendorService {
         .name(vendor.getName())
         .lat(vendor.getLatitude())
         .lng(vendor.getLongitude())
-        .phone(vendor.getPhone()).build();
+        .phone(clean(vendor.getPhone())).build();
   }
 
   @Data
