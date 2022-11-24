@@ -37,7 +37,7 @@ app:
   scheduling:
     enable: false
 
-profilebaba:
-  save-vendor:
+profile-baba:
     host: https://testing.profilebaba.com/api
-    endpoint: /save-vendor
+    save-vendor: /save-vendor
+    get-category-list: /category-list

@@ -8,10 +8,14 @@ import com.profilebaba.googledata.dto.GoogleResponse;
 import com.profilebaba.googledata.dto.Record;
 import com.profilebaba.googledata.dto.Request;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
+import com.profilebaba.googledata.util.ApplicationUtility;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +33,7 @@ public class GoogleService {
   public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size,
       Integer searchCategory)
       throws JsonProcessingException {
+    location = ApplicationUtility.fixLocation(location);
     Optional<GoogleResponse> search;
     if (query == null) {
       search = search(category, location, size);
@@ -44,6 +49,7 @@ public class GoogleService {
     }
     return List.of();
   }
+
 
   private Optional<GoogleResponse> search(String category, String location, Integer size)
       throws JsonProcessingException {

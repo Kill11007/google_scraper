@@ -3,6 +3,7 @@ package com.profilebaba.googledata.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.profilebaba.googledata.service.impl.GoogleService;
 import com.profilebaba.googledata.service.impl.GoogleService.GoogleVendor;
+import com.profilebaba.googledata.service.impl.GoogleVendorService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GoogleSearchController {
 
   private final GoogleService googleService;
+  private final GoogleVendorService googleVendorService;
 
   @GetMapping
   public ResponseEntity<List<GoogleVendor>> search(
@@ -30,6 +32,7 @@ public class GoogleSearchController {
       @RequestParam(value = "size", required = false, defaultValue = "50") Integer size) throws JsonProcessingException {
     List<GoogleVendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(
           query, category, location, state, size, searchCategory);
+    googleVendorService.saveVendorOnAllCategories(location, size);
     return ResponseEntity.ok(googleBusinessInformation);
   }
 }
