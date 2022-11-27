@@ -32,7 +32,7 @@ public class GoogleSearchController {
       @RequestParam(value = "size", required = false, defaultValue = "50") Integer size) throws JsonProcessingException {
     List<GoogleVendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(
           query, category, location, state, size, searchCategory);
-    googleVendorService.saveVendorOnAllCategories(location, size);
+//    googleVendorService.saveVendorOnAllCategories(location, size);
     return ResponseEntity.ok(googleBusinessInformation);
   }
 }
