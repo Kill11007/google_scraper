@@ -38,6 +38,6 @@ app:
     enable: false
 
 profile-baba:
-    host: https://testing.profilebaba.com/api
-    save-vendor: /save-vendor
-    get-category-list: /category-list
+  host: https://testing.profilebaba.com/api
+  save-vendor: /save-vendor
+  get-category-list: /category-list
