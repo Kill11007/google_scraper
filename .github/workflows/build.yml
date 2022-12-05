@@ -19,7 +19,7 @@ jobs:
           java-version: 11
 
       - name: build with maven
-        run: ./mvnw.cmd clean install
+        run: mvn --batch-mode --update-snapshots package
 
       - name: Upload JAR
         uses: actions/upload-artifact@v2
