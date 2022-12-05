@@ -19,7 +19,7 @@ jobs:
           java-version: 11
 
       - name: build with maven
-        run: ./mvnw clean install
+        run: ./mvnw.cmd clean install
 
       - name: Upload JAR
         uses: actions/upload-artifact@v2
