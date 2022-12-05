@@ -27,18 +27,6 @@ jobs:
         with:
           name: artifact
           path: build/libs/google-data-SNAPSHOT.jar
-
-  deploy:
-    needs: build
-    name: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download JAR
-        uses: actions/download-artifact@v2
-        with:
-          name: artifact
-          path: build/libs/google-data-SNAPSHOT.jar
-      # deploy the artifact (JAR) into AWS Beanstalk
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -48,4 +36,4 @@ jobs:
           environment_name: Profilebabascraper-env-1
           version_label: ${{ github.SHA }}
           region: ap-northeast-1
-          deployment_package: google-data-0.0.1-SNAPSHOT.jar
+          deployment_package: google-data-0.0.1-SNAPSHOT.jar    
