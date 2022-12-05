@@ -37,6 +37,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: artifact
+          path: build/libs/google-data-SNAPSHOT.jar
       # deploy the artifact (JAR) into AWS Beanstalk
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v21
