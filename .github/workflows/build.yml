@@ -36,4 +36,4 @@ jobs:
           environment_name: Profilebabascraper-env-1
           version_label: ${{ github.SHA }}
           region: ap-northeast-1
-          deployment_package: google-data-0.0.1-SNAPSHOT.jar    
+          deployment_package: google-data-SNAPSHOT.jar    
