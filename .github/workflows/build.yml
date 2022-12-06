@@ -20,31 +20,24 @@ jobs:
           distribution: 'adopt'
 
       - name: build with maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -B package -DskipTests --file pom.xml
 
       - name: Upload JAR
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: build/libs/google-data-SNAPSHOT.jar
-
-  deploy:
-    needs: build
-    name: deploy
-    runs-on: ubuntu-latest
-    steps:
+          path: target/google-data-0.0.1-SNAPSHOT.jar
       - name: Download JAR
         uses: actions/download-artifact@v2
         with:
-          name: artifact
-      # deploy the artifact (JAR) into AWS Beanstalk
+          name: artifact    
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECURITY_ACCESS_KEY }}
           application_name: profilebaba-scraper
           environment_name: Profilebabascraper-env-1
           version_label: ${{ github.SHA }}
           region: ap-northeast-1
-          deployment_package: google-data-0.0.1-SNAPSHOT.jar
+          deployment_package: google-data-0.0.1-SNAPSHOT.jar    
