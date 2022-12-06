@@ -20,13 +20,13 @@ jobs:
           distribution: 'adopt'
 
       - name: build with maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -B package -DskipTests --file pom.xml
 
       - name: Upload JAR
         uses: actions/upload-artifact@v2
         with:
           name: artifact
-          path: build/libs/google-data-0.0.1-SNAPSHOT.jar
+          path: target/google-data-0.0.1-SNAPSHOT.jar
       - name: Download JAR
         uses: actions/download-artifact@v2
         with:
