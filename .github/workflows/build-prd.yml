@@ -1,0 +1,44 @@
+name: Deploy spring code to aws elastic beanstalk
+
+on:
+  push:
+    branches:
+      - release/prd
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@main
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: build with maven
+        run: mvn -B package -DskipTests --file pom.xml
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: target/google-data-0.0.1-SNAPSHOT.jar
+      - name: Download JAR
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact    
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          use_existing_version_if_available: true
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECURITY_ACCESS_KEY }}
+          application_name: profilebaba-scraper
+          environment_name: Profilebabascraper-env
+          version_label: ${{ github.SHA }}
+          region: ap-south-1
+          deployment_package: google-data-0.0.1-SNAPSHOT.jar    
