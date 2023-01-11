@@ -30,14 +30,14 @@ public class QuerySeparator {
       temp.append(" ").append(word);
       phrases[count] += " " + word;
     }
-    log.info("Count: {}, Phrase 1: {}", count, phrases[0]);
-    log.info("Count: {}, Phrase 2: {}", count, phrases[1]);
-
+    phrases[0] = phrases[0].trim();
+    phrases[1] = phrases[1].trim();
+    log.info("Count: {}, Phrase 1: {}, Phrase 2: {}", count, phrases[0], phrases[1]);
     if (words.length < 2){
-      return new SearchQueryPhrase(phrases[0], currentLocation);
+      return new SearchQueryPhrase(phrases[0], currentLocation.trim());
     }
     String location = phrases[1];
-    if (location.isBlank() || location.equalsIgnoreCase("me")) {
+    if (location.isBlank() || location.equals("me")) {
       location = currentLocation;
     }
     SearchQueryPhrase searchQueryPhrase = new SearchQueryPhrase(phrases[0], location);

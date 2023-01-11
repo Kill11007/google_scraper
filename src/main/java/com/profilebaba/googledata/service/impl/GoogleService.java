@@ -57,7 +57,7 @@ public class GoogleService {
 
   private Optional<GoogleResponse> search(String category, String location, Integer size)
       throws JsonProcessingException {
-    final String QUERY = "{0} in {1}";
+    final String QUERY = "{0} near {1}";
     final int MAX_CALL = 3;
     int count = 0;
     Optional<GoogleResponse> search;
