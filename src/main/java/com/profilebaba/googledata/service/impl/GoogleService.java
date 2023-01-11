@@ -9,6 +9,8 @@ import com.profilebaba.googledata.dto.Record;
 import com.profilebaba.googledata.dto.Request;
 import com.profilebaba.googledata.mapper.GoogleResponseMapper;
 import com.profilebaba.googledata.util.ApplicationUtility;
+import com.profilebaba.googledata.util.QuerySeparator;
+import com.profilebaba.googledata.util.QuerySeparator.SearchQueryPhrase;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -29,6 +31,7 @@ public class GoogleService {
   private final GoogleBusinessClient googleBusiness;
   private final GoogleResponseMapper responseMapper;
   private final ProfileBabaAsyncVendorService profileBabaAsyncVendorService;
+  private final QuerySeparator querySeparator;
 
   public List<GoogleVendor> getGoogleBusinessInformation(String query, String category, String location, String state, Integer size,
       Integer searchCategory)
@@ -38,7 +41,8 @@ public class GoogleService {
     if (query == null) {
       search = search(category, location, size);
     }else{
-      search = search(query, location, size);
+      SearchQueryPhrase phrase = querySeparator.getPhrase(query, location);
+      search = search(phrase.getQuery(), phrase.getLocation(), size);
     }
     if (search.isPresent()) {
       List<GoogleVendor> googleVendors =

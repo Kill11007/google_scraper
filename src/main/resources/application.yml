@@ -46,3 +46,6 @@ profile-baba:
   host: https://testing.profilebaba.com/api
   save-vendor: /save-vendor
   get-category-list: /category-list
+
+query:
+  prepositions: above,across,after,against,around,at,before,behind,below,beneath,beside,between,beyond,by,during,except,for,from,in,inside,into,near,of,off,on,onto,out,outside,over,past,through,to,toward,under,until,up,upon,with,within,without
