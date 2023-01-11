@@ -1,8 +1,6 @@
 package com.profilebaba.googledata.util;
 
 import com.profilebaba.googledata.config.QueryConfiguration;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
