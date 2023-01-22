@@ -94,7 +94,7 @@ public class RecordDeserializer extends StdDeserializer<GoogleResponse> {
     if (dataNode != null && dataNode.isArray()) {
       ArrayNode arrayDataNode = (ArrayNode) dataNode;
       int dataNodeSize = arrayDataNode.size();
-      for (int i = 1; i < dataNodeSize; i++) {
+      for (int i = 0; i < dataNodeSize; i++) {
         JsonNode jsonNode = arrayDataNode.get(i);
         if (jsonNode != null && !jsonNode.isNull() && jsonNode.isArray()) {
           ArrayNode tRecordNode = (ArrayNode) jsonNode;

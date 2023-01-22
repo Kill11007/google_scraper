@@ -28,7 +28,6 @@ public class QuerySeparator {
         continue;
       }
       temp.append(" ").append(word);
-      phrases[count] += " " + word;
     }
     phrases[0] = phrases[0].trim();
     phrases[1] = phrases[1].trim();

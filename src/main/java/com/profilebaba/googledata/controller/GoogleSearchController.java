@@ -35,5 +35,27 @@ public class GoogleSearchController {
 //    googleVendorService.saveVendorOnAllCategories(location, size);
     return ResponseEntity.ok(googleBusinessInformation);
   }
+
+  @GetMapping("/metro-station")
+  public ResponseEntity<GoogleVendor> search(
+      @RequestParam(value = "query", required = false) String query,
+      @RequestParam(value = "location", required = false) String location) throws JsonProcessingException {
+    GoogleVendor googleBusinessInformation = googleService.getGoogleBusinessInformation(
+        query, location);
+    return ResponseEntity.ok(googleBusinessInformation);
+  }
+
+  @GetMapping("/near-by-metro-stations")
+  public ResponseEntity<List<GoogleVendor>> search(
+      @RequestParam(value = "query", required = false) String query) throws JsonProcessingException {
+    return ResponseEntity.ok(googleService.getGoogleBusinessInformation(
+        query));
+  }
+
+  @GetMapping("/near-by")
+  public ResponseEntity<GoogleVendor> searchNearBy(
+      @RequestParam(value = "query", required = false) String query) throws JsonProcessingException {
+    return ResponseEntity.ok(googleService.getGoogleBusinessInformationNearBy(query));
+  }
 }
 
