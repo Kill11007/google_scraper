@@ -16,30 +16,25 @@ public class QuerySeparator {
 
   public SearchQueryPhrase getPhrase(String phrase, String currentLocation){
     String[] words = phrase.split("\\s+");
-    String[] phrases = new String[]{"", ""};
+    StringBuilder[] phrases = new StringBuilder[] {new StringBuilder(), new StringBuilder()};
     int count = 0;
-    StringBuilder temp = new StringBuilder();
     for (String word : words) {
-      log.info("Word: {}", word);
-      if (count == 0 && (queryConfiguration.getPunctuationsAndDash().contains(word)
-          || queryConfiguration.getPrepositions().contains(word))){
-        phrases[count++] = temp.toString();
-        temp = new StringBuilder();
+      String separatorChar = " ";
+      if (count < 2
+          && (queryConfiguration.getPunctuationsAndDash().contains(word) || queryConfiguration.getPrepositions().contains(word))){
+        count++;
         continue;
       }
-      temp.append(" ").append(word);
+      if (count == 0){
+        separatorChar = "";
+      }
+      phrases[count].append(separatorChar).append(word);
     }
-    phrases[0] = phrases[0].trim();
-    phrases[1] = phrases[1].trim();
-    log.info("Count: {}, Phrase 1: {}, Phrase 2: {}", count, phrases[0], phrases[1]);
-    if (words.length < 2){
-      return new SearchQueryPhrase(phrases[0], currentLocation.trim());
-    }
-    String location = phrases[1];
+    String location = phrases[1].toString();
     if (location.isBlank() || location.equals("me")) {
       location = currentLocation;
     }
-    SearchQueryPhrase searchQueryPhrase = new SearchQueryPhrase(phrases[0], location);
+    SearchQueryPhrase searchQueryPhrase = new SearchQueryPhrase(phrases[0].toString(), location);
     log.info("SearchPhrase: {}", searchQueryPhrase);
     return searchQueryPhrase;
   }
