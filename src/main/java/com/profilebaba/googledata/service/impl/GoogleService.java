@@ -84,7 +84,7 @@ public class GoogleService {
     if (search.isPresent()) {
       List<GoogleVendor> googleVendors = responseMapper.responseToGoogleVendor(search.get());
       // async below
-      profileBabaAsyncVendorService.saveVendors(googleVendors, searchCategory, location);
+//      profileBabaAsyncVendorService.saveVendors(googleVendors, searchCategory, location);
       return googleVendors;
     }
     return List.of();

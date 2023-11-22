@@ -29,7 +29,7 @@ public class GoogleSearchController {
       @RequestParam(value = "search_category", required = false) Integer searchCategory,
       @RequestParam(value = "location", required = false) String location,
       @RequestParam(value = "state", required = false) String state,
-      @RequestParam(value = "size", required = false, defaultValue = "50") Integer size) throws JsonProcessingException {
+      @RequestParam(value = "size", required = false, defaultValue = "${request.total-records:150}") Integer size) throws JsonProcessingException {
     List<GoogleVendor> googleBusinessInformation = googleService.getGoogleBusinessInformation(
         query, category, location, state, size, searchCategory);
 //    googleVendorService.saveVendorOnAllCategories(location, size);

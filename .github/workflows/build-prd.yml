@@ -3,7 +3,7 @@ name: Deploy spring code to aws elastic beanstalk
 on:
   push:
     branches:
-      - release/prd
+      - main
 
 jobs:
   build:
