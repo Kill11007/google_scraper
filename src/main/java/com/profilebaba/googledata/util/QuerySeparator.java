@@ -30,7 +30,7 @@ public class QuerySeparator {
       }
       phrases[count].append(separatorChar).append(word);
     }
-    String location = phrases[1].toString();
+    String location = phrases[1].toString().trim();
     if (location.isBlank() || location.equals("me")) {
       location = currentLocation;
     }
